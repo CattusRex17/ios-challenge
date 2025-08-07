@@ -1,0 +1,46 @@
+Detección de Aplicaciones y Contenido
+
+
+
+¿Se puede detectar qué apps tiene el usuario instaladas?
+
+
+No. Desde iOS 9, Apple restringió por completo la posibilidad de listar apps instaladas. Solo se puede comprobar si una app específica está instalada si se tiene su URL Scheme declarado en el `Info.plist`.
+
+
+Limitaciones:
+
+- Solo puedes usar `canOpenURL(_:)` con esquemas explícitamente declarados en `LSApplicationQueriesSchemes`.
+- No puedes obtener una lista de todas las apps instaladas.
+
+
+
+¿Se puede detectar si el usuario está viendo una app de streaming?
+
+
+iOS no expone ninguna API para detectar qué app está activa en foreground si no es tuya. Tampoco permite grabar pantalla, hacer OCR u observar visualmente la interfaz de otras apps.
+
+
+
+Enfoque alternativo viable:
+
+
+Se puede proponer una app de "segunda pantalla" que el usuario abre mientras ve contenido. Esta app podría registrar:
+
+- Si hay una pantalla externa conectada (`UIScreen.screens.count > 1`).
+- Actividad de audio en segundo plano (`AVAudioSession.sharedInstance().isOtherAudioPlaying`).
+- Check-in manual del usuario indicando qué contenido está viendo.
+
+
+¿Se puede saber qué contenido está viendo el usuario (ej. nombre de la película) desde otra app?
+
+
+No. iOS impone aislamiento total entre apps con sandboxing.
+
+Barreras impuestas por iOS:
+
+- No se puede acceder al contenido de pantalla ni compartirlo sin permisos explícitos.
+- No se puede grabar la pantalla, analizar el contenido o interceptar datos de otras apps.
+- No se puede interactuar con otras apps ni saber qué están mostrando.
+
+La única vía legítima es la participación activa del usuario.
