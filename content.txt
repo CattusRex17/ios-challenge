@@ -1,0 +1,43 @@
+Flujo de Usuario: Transmisión de contenido vía AirPlay
+
+
+
+1. Pantalla principal:
+
+   - Botón para seleccionar un video local usando `PHPickerViewController`.
+
+   - Una vez seleccionado, el video se previsualiza en pantalla usando `AVPlayerViewController`.
+
+
+2. Botón "Transmitir vía AirPlay":
+
+   - Se muestra un `AVRoutePickerView` que permite seleccionar un dispositivo AirPlay disponible.
+
+
+3. Detección de pantalla externa activa:
+
+   - Se usa `UIScreen.screens.count > 1` para verificar si hay una segunda pantalla conectada.
+   - Si es así, se muestra un mensaje: "AirPlay activo: contenido se transmite".
+
+
+Frameworks utilizados:
+
+
+- `PhotosUI`: Selección de contenido desde la librería del dispositivo.
+- `AVKit`: Para previsualizar videos con `AVPlayerViewController`.
+- `AVFoundation`: Para control del reproductor si se requiere más personalización.
+- `MediaPlayer`: Para `AVRoutePickerView` (soporte moderno para AirPlay).
+
+
+¿Se puede realizar AirPlay desde una app en segundo plano?
+
+iOS permite mantener la reproducción si la app ya está reproduciendo contenido cuando pasa al segundo plano, pero no permite iniciar o controlar una sesión de AirPlay desde background.
+
+
+Justificación técnica:
+
+- Se requiere declarar en el `Info.plist` los modos de fondo `UIBackgroundModes` con los valores: `audio` o `airplay`.
+
+- Es obligatorio usar `AVAudioSession` con categoría `.playback` para que el contenido continúe transmitiéndose.
+
+- Apple no permite que una app suspendida inicie transmisión o descubra dispositivos AirPlay.
